@@ -1,25 +1,25 @@
-# syntax = ghcr.io/siderolabs/bldr:v0.5.5
+# syntax = ghcr.io/siderolabs/bldr:v0.6.1
 
 format: v1alpha2
 
 vars:
   # renovate: datasource=github-tags depName=ARM-software/arm-trusted-firmware
-  arm_trusted_firmware_version: lts-v2.12.8
+  arm_trusted_firmware_version: lts-v2.14.4
   arm_trusted_firmware_sha256: bd7f67ee8aeb1a37c0db832701291342bd3e18dc4d924bcefda53b078ddfb0af
   arm_trusted_firmware_sha512: 05c2f902df8679ba2da9cadea02eb0fb75844751550843d1cc5ec11530350d33b03e99da3bf1fa675b0959170007d7596897fcae950f41f63e1fd346002c759a
 
   # renovate: datasource=github-tags extractVersion=^v(?<version>.*)$ depName=u-boot/u-boot
-  uboot_version: 2026.01
+  uboot_version: 2026.04
   uboot_sha256: b60d5865cefdbc75da8da4156c56c458e00de75a49b80c1a2e58a96e30ad0d54
   uboot_sha512: b1f988a497c77da60faf89ed33034e9ae58c4cd7f208e5ce451f1372e13540a66289bee4f08ca2f68f105d73f1ceae058b1f713db549edbcc885d9c66bdc4f8b
 
   # renovate: datasource=git-refs versioning=git depName=https://github.com/rockchip-linux/rkbin.git
-  rkbin_ref: 74213af1e952c4683d2e35952507133b61394862
+  rkbin_ref: ecb4fcbe954edf38b3ae037d5de6d9f5bccf81f4
   rkbin_sha256: b565faeab846950262c07e6debbd6519ea9e7f34943dbb305b9cea6b1026e11a
   rkbin_sha512: 15245ca51b010edeae933b53a9aa9398552f2bdd65879d2bbbc147417999947e1d71aa29123302c7486976886ebf59867123abdcc2d77be6f566a96c242a5ca2
 
   # renovate: datasource=git-tags extractVersion=^v(?<version>.*)$ depName=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-  linux_version: 6.18.2
+  linux_version: 6.18.38
   linux_sha256: 558c6bbab749492b34f99827fe807b0039a744693c21d3a7e03b3a48edaab96a
   linux_sha512: 15989d1a26c6a5200b8eab4ba348b308466398aa75dda3844b37e7eb320206236d47c94cbc0e0b1d7ead10385ca84d34d0f2aa02ba5c1bd65ca6a5aa71c57117
 
