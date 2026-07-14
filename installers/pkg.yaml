@@ -153,7 +153,11 @@ dependencies:
     platform: linux/arm64
     from: /dtb/rockchip/rk3588-rock-5t.dtb
     to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588-rock-5t.dtb
-  - stage: dtb-turingrk1
+  # injectedfusion fork: source the Turing RK1 DTB from the RK3588 vendor BSP kernel
+  # (talos-rk1-vpu-kernel) instead of the self-built mainline 6.18.2 DTB. The BSP DTB
+  # carries the vendor VPU nodes (mpp_service/rkvdec/rkvenc/rga) that RKMPP needs; the
+  # mainline DTB does not. Same image-pull pattern as every other board above.
+  - image: "{{ .BUILD_ARG_VPU_KERNEL_IMAGE }}"
     platform: linux/arm64
     from: /dtb/rockchip/rk3588-turing-rk1.dtb
     to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588-turing-rk1.dtb
