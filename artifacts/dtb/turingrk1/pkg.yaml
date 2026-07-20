@@ -6,15 +6,21 @@ dependencies:
 
 steps:
   - sources:
-      - url: https://cdn.kernel.org/pub/linux/kernel/v{{ regexReplaceAll "(\\d+)(.\\d+)(\\.\\d+)?$" .linux_version "${1}" }}.x/linux-{{ .linux_version }}.tar.xz
-        destination: linux.tar.xz
-        sha256: "{{ .linux_sha256 }}"
-        sha512: "{{ .linux_sha512 }}"
+      # The DTB MUST be compiled from the SAME 6.1 vendor BSP tree as the kernel, not mainline.
+      # Mainline 6.18.2 and the BSP number the RK3588 CRU clocks differently, so a mainline
+      # DTB's <&cru CLKID> phandles resolve to the wrong clocks under the 6.1 kernel -> the
+      # RK3588 power-controller (fd8d8000) cannot get its domains' clocks -> EPROBE_DEFER (-517)
+      # forever -> GMAC + VPU + PCIe + PHYs never probe. Same tag + hashes as the kernel
+      # (talos-rk1-vpu linux_bsp_sha256/sha512).
+      - url: https://github.com/Joshua-Riek/linux-rockchip/archive/refs/tags/Ubuntu-rockchip-6.1.0-1027.27.tar.gz
+        destination: linux.tar.gz
+        sha256: "4f4518c0f6a5ed40a1baa9bacfc1de50bca06091520e467735da6c4e312d6cd4"
+        sha512: "1d35bde0e8c0b0acc19f26cf2165560247f325961fde0e5d38534a40137018b54621fc1894fa7176cc01ee750e50f4f2ae5181056264494e708e22e0ae673666"
 
     prepare:
       - |
-        tar -xJf linux.tar.xz --strip-components=1
-        rm linux.tar.xz
+        tar -xzf linux.tar.gz --strip-components=1
+        rm linux.tar.gz
       - |
         for patch in $(find /pkg/patches -type f -name "*.patch" | sort); do
           echo "Applying patch $patch"
