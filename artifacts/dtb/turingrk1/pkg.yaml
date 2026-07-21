@@ -22,6 +22,22 @@ steps:
         tar -xzf linux.tar.gz --strip-components=1
         rm linux.tar.gz
       - |
+        # Physical debug console: the Turing Pi 2 "UART2 DEBUG" pin header (per node slot)
+        # is wired to the RK1's uart2 via the uart2m0 mux (mainline rk3588-turing-rk1.dtsi
+        # enables exactly this; the BSP DTS sets the serial2 alias but leaves uart2 disabled).
+        # Talos already boots with console=ttyS2,115200 on the cmdline, so enabling the node
+        # mirrors the kernel console to the physical header: lossless, bmcd-independent
+        # capture with any 3.3V USB-TTL cable. Appended (not context-patched) so it survives
+        # upstream drift in the BSP DTS.
+        cat >> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dts <<'EOF'
+
+        &uart2 {
+        	pinctrl-names = "default";
+        	pinctrl-0 = <&uart2m0_xfer>;
+        	status = "okay";
+        };
+        EOF
+      - |
         for patch in $(find /pkg/patches -type f -name "*.patch" | sort); do
           echo "Applying patch $patch"
           patch -p1 < $patch || (echo "Failed to apply patch $patch" && exit 1)
